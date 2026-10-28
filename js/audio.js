@@ -572,4 +572,44 @@ export class SoundEngine {
       this._playFeltNote(freq, now + i * 0.058, 1.9, 0.042, 'sine');
     });
   }
+
+  /**
+   * Crystalline 3D Wax-Gold Envelope Unseal Harp Glissando
+   */
+  playEnvelopeUnseal() {
+    if (this.isMuted || !this.ctx || !this.masterGain) return;
+    if (this.ctx.state !== 'running') return;
+
+    const now = this.ctx.currentTime;
+    const notes = [587.33, 739.99, 880.0, 1174.66, 1479.98];
+    notes.forEach((freq, i) => {
+      this._playCelestaTine(freq, now + i * 0.068, 1.35, 0.088 - i * 0.01);
+    });
+  }
+
+  /**
+   * Harmonic charge milestone bell at 33% & 66% orb hold
+   */
+  playHarmonicMilestone(step = 1) {
+    if (this.isMuted || !this.ctx || !this.masterGain) return;
+    if (this.ctx.state !== 'running') return;
+
+    const now = this.ctx.currentTime;
+    const freq = step <= 1 ? 783.99 : 987.77;
+    this._playCelestaTine(freq, now, 0.55, 0.052);
+  }
+
+  /**
+   * Whisper-soft golden ink signature completion chime
+   */
+  playSignatureChime() {
+    if (this.isMuted || !this.ctx || !this.masterGain) return;
+    if (this.ctx.state !== 'running') return;
+
+    const now = this.ctx.currentTime;
+    const notes = [587.33, 739.99, 880.0, 1318.51];
+    notes.forEach((freq, i) => {
+      this._playCelestaTine(freq, now + i * 0.085, 1.25, 0.046);
+    });
+  }
 }

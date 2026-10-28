@@ -152,7 +152,7 @@ button:focus-visible,
 }
 
 .app-viewport.sheet-open .app-stage-scaler {
-  transform: scale(0.935) translate3d(0, 8px, 0);
+  transform: perspective(1100px) translate3d(0, 10px, -56px) rotateX(4.2deg) scale(0.94);
 }
 
 /* ==========================================================================

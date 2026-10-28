@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Keyframes, Micro-Interactions & Reduced-Motion Accessibility
+   V2 Spatial 3D Keyframes, Gyroscopic Orbits & Reduced-Motion Accessibility
    ========================================================================== */
 
 @keyframes eqPulse1 {
@@ -39,17 +39,17 @@
   animation: eqPulse4 0.6s ease-in-out infinite;
 }
 
-@keyframes emblemFloat {
+@keyframes emblemFloat3D {
   0%, 100% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
+    transform: translate3d(0, 0, 26px) rotateY(-6deg) rotateX(4deg);
   }
   50% {
-    transform: translate3d(0, -6px, 0) rotate(2deg);
+    transform: translate3d(0, -7px, 34px) rotateY(7deg) rotateX(-4deg);
   }
 }
 
 .invite-emblem-glass {
-  animation: emblemFloat 5.4s ease-in-out infinite;
+  animation: emblemFloat3D 5.2s ease-in-out infinite;
 }
 
 @keyframes haloBreath {
@@ -58,13 +58,13 @@
     opacity: 0.72;
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.14);
     opacity: 1;
   }
 }
 
 .invite-emblem-halo {
-  animation: haloBreath 4.6s ease-in-out infinite;
+  animation: haloBreath 4.4s ease-in-out infinite;
 }
 
 @keyframes flameBreath {
@@ -72,48 +72,110 @@
     transform: scale(1) translateY(0);
   }
   50% {
-    transform: scale(1.07) translateY(-2px);
+    transform: scale(1.09) translateY(-3px);
   }
 }
 
 .wish-flame-svg {
-  animation: flameBreath 3.2s ease-in-out infinite;
+  animation: flameBreath 3s ease-in-out infinite;
 }
 
 .wish-orb-btn.is-holding .wish-flame-svg {
-  animation-duration: 0.9s;
-  transform: scale(1.16);
+  animation-duration: 0.8s;
+  transform: scale(1.18);
 }
 
-@keyframes swipeNudge {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(4px); }
+/* 3D Gyroscopic Orbital Rings around Wish Orb */
+@keyframes gyroSpin1 {
+  0% { transform: rotateX(66deg) rotateY(14deg) rotateZ(0deg); }
+  100% { transform: rotateX(66deg) rotateY(14deg) rotateZ(360deg); }
 }
 
-.swipe-hint-arrow {
-  display: inline-block;
-  animation: swipeNudge 2.2s ease-in-out infinite;
+@keyframes gyroSpin2 {
+  0% { transform: rotateX(-58deg) rotateY(34deg) rotateZ(360deg); }
+  100% { transform: rotateX(-58deg) rotateY(34deg) rotateZ(0deg); }
 }
 
-/* Reduced Motion Respect (WCAG 2.1 AAA) */
+@keyframes gyroSpin3 {
+  0% { transform: rotateX(28deg) rotateY(-64deg) rotateZ(0deg); }
+  100% { transform: rotateX(28deg) rotateY(-64deg) rotateZ(360deg); }
+}
+
+.orb-gyro-ring-1 {
+  animation: gyroSpin1 9.5s linear infinite;
+}
+
+.orb-gyro-ring-2 {
+  animation: gyroSpin2 12s linear infinite;
+}
+
+.orb-gyro-ring-3 {
+  animation: gyroSpin3 14.5s linear infinite;
+}
+
+.wish-orb-wrap.is-charging .orb-gyro-ring-1 {
+  animation-duration: 2.6s;
+}
+
+.wish-orb-wrap.is-charging .orb-gyro-ring-2 {
+  animation-duration: 3.1s;
+}
+
+.wish-orb-wrap.is-charging .orb-gyro-ring-3 {
+  animation-duration: 3.6s;
+}
+
+/* Pulsing Golden Halo on 3D Wax Monogram Seal */
+@keyframes sealPulse {
+  0%, 100% {
+    transform: scale(0.92);
+    opacity: 0.58;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0.96;
+  }
+}
+
+.envelope-seal-halo {
+  animation: sealPulse 2.6s ease-in-out infinite;
+}
+
+/* Liquid-Gold Specular Sheen Sweep on Primary CTA Pill */
+@keyframes btnSheenSweep {
+  0%, 72% {
+    transform: translateX(-220%) skewX(-18deg);
+  }
+  100% {
+    transform: translateX(360%) skewX(-18deg);
+  }
+}
+
+.act.is-active .btn-primary-ios::after {
+  animation: btnSheenSweep 4.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
+/* Silky 3D Spatial Curtain-Up Entrance (transform-only for instant LCP) */
+@keyframes spatialRiseIn {
+  0% {
+    transform: translate3d(0, 14px, 0) scale(0.975);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+#act-1 .act-perspective-wrap {
+  animation: spatialRiseIn 0.78s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Respect iOS Reduce Motion System Setting */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.18s !important;
-    transition-delay: 0ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  .act,
-  .letter-stagger {
-    transform: none !important;
-    filter: none !important;
-  }
-
-  .sig-stroke {
-    stroke-dashoffset: 0 !important;
+    transition-duration: 0.16s !important;
   }
 }

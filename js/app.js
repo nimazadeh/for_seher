@@ -6,12 +6,13 @@
  *  Stage 3: Ali's Birthday Note Sheet + Keepsake Pass
  */
 
-import { APP_CONFIG } from './config.js';
-import { ThemeEngine } from './theme-engine.js';
-import { I18nEngine } from './i18n.js';
-import { SoundEngine } from './audio.js';
-import { CanvasFX } from './canvas-fx.js';
-import { VelocityTracker, rubberBand } from './spring.js';
+import { APP_CONFIG } from './config.js?v=2';
+import { ThemeEngine } from './theme-engine.js?v=2';
+import { I18nEngine } from './i18n.js?v=2';
+import { SoundEngine } from './audio.js?v=2';
+import { CanvasFX } from './canvas-fx.js?v=2';
+import { VelocityTracker, rubberBand } from './spring.js?v=2';
+import { SpatialCard3D } from './spatial-tilt.js?v=2';
 
 class BirthdayExperienceApp {
   constructor() {
@@ -20,18 +21,23 @@ class BirthdayExperienceApp {
     this.sound = new SoundEngine(APP_CONFIG.audio);
     this.canvasFx = null;
     this._sigObserver = null;
+    this.spatialCards = [];
+    this.isEnvelopeUnsealing = false;
+    this._envelopeTimer = null;
 
     this.currentAct = 1;
 
     // Stage 2 Hold-to-Unlock State
     this.wishState = 'idle'; // 'idle' | 'holding' | 'completed'
     this.wishProgress = 0;
+    this._wishMilestoneStep = 0;
     this._wishRaf = null;
     this._wishLastTime = 0;
     this._wishTransitionTimer = null;
 
     // Stage 3 Bottom Sheet State
     this.isSheetOpen = false;
+    this._hasPlayedSigChime = false;
     this.sheetVelocity = new VelocityTracker();
     this._saveResetTimer = null;
   }
@@ -44,7 +50,16 @@ class BirthdayExperienceApp {
     if (canvas) {
       this.canvasFx = new CanvasFX(canvas, this.themeEngine);
       this.canvasFx.start();
+      this.canvasFx.triggerWarpBurst(0.88);
     }
+
+    // Gentle celestial starburst when tapping open sky outside controls/sheet
+    const stageScaler = document.querySelector('.app-stage-scaler');
+    stageScaler?.addEventListener('pointerdown', (e) => {
+      if (this.isSheetOpen) return;
+      if (e.target.closest('button, a, .keepsake-pass, .envelope-3d-scene')) return;
+      this.canvasFx?.spawnMiniBurst(e.clientX, e.clientY, 12);
+    });
 
     this._bindHud();
     this._bindAct1Welcome();
@@ -141,7 +156,13 @@ class BirthdayExperienceApp {
     const startBtn = document.getElementById('start-journey-btn');
 
     if (inviteCard) {
-      this._attachSpecularGlare(inviteCard, '--glare-x', '--glare-y');
+      this.spatialCards.push(
+        new SpatialCard3D(inviteCard, {
+          maxTilt: 10.5,
+          idleTilt: 2.6,
+          glareVars: ['--glare-x', '--glare-y']
+        })
+      );
     }
 
     if (startBtn) {
@@ -150,31 +171,13 @@ class BirthdayExperienceApp {
           this.sound.unlockAndStart();
         }
         this.sound.playTap(1.05);
+        this.canvasFx?.triggerWarpBurst(1.45);
         if (this.wishState === 'completed') {
           this._resetWishState();
         }
         this.goToAct(2);
       });
     }
-  }
-
-  _attachSpecularGlare(cardEl, varX, varY) {
-    const updateGlare = (clientX, clientY) => {
-      const rect = cardEl.getBoundingClientRect();
-      if (rect.width <= 0 || rect.height <= 0) return;
-      const xPct = Math.max(0, Math.min(100, ((clientX - rect.left) / rect.width) * 100));
-      const yPct = Math.max(0, Math.min(100, ((clientY - rect.top) / rect.height) * 100));
-      cardEl.style.setProperty(varX, `${xPct.toFixed(1)}%`);
-      cardEl.style.setProperty(varY, `${yPct.toFixed(1)}%`);
-    };
-
-    cardEl.addEventListener(
-      'pointermove',
-      (e) => {
-        updateGlare(e.clientX, e.clientY);
-      },
-      { passive: true }
-    );
   }
 
   /* ========================================================================
@@ -196,6 +199,7 @@ class BirthdayExperienceApp {
 
       this.wishState = 'holding';
       orbBtn.classList.add('is-holding');
+      document.getElementById('wish-orb-wrap')?.classList.add('is-charging');
       this.sound.startWishHum();
       this._syncWishTextUi();
 
@@ -208,6 +212,7 @@ class BirthdayExperienceApp {
       if (this.wishState !== 'holding') return;
       this.wishState = 'idle';
       orbBtn.classList.remove('is-holding');
+      document.getElementById('wish-orb-wrap')?.classList.remove('is-charging');
       this.sound.stopWishHum(false);
       this._syncWishTextUi();
 
@@ -244,6 +249,15 @@ class BirthdayExperienceApp {
         1,
         this.wishProgress + dt / APP_CONFIG.wishHoldDurationMs
       );
+      if (this.wishProgress >= 0.34 && this._wishMilestoneStep < 1) {
+        this._wishMilestoneStep = 1;
+        this.sound.playHarmonicMilestone(1);
+        this.canvasFx?.triggerMilestoneRipple(0.5, 0.52);
+      } else if (this.wishProgress >= 0.68 && this._wishMilestoneStep < 2) {
+        this._wishMilestoneStep = 2;
+        this.sound.playHarmonicMilestone(2);
+        this.canvasFx?.triggerMilestoneRipple(0.5, 0.52);
+      }
       this._renderWishProgress();
       this.sound.setWishProgress(this.wishProgress);
 
@@ -254,6 +268,8 @@ class BirthdayExperienceApp {
       this._wishRaf = requestAnimationFrame((t) => this._stepWishLoop(t));
     } else if (this.wishState === 'idle' && this.wishProgress > 0) {
       this.wishProgress = Math.max(0, this.wishProgress - dt / 650);
+      if (this.wishProgress < 0.3) this._wishMilestoneStep = 0;
+      else if (this.wishProgress < 0.64) this._wishMilestoneStep = 1;
       this._renderWishProgress();
       if (this.wishProgress > 0) {
         this._wishRaf = requestAnimationFrame((t) => this._stepWishLoop(t));
@@ -263,12 +279,18 @@ class BirthdayExperienceApp {
 
   _renderWishProgress() {
     const ringFill = document.getElementById('wish-ring-fill');
+    const sparkHead = document.getElementById('wish-spark-head');
     const orbWrap = document.getElementById('wish-orb-wrap');
     const circumference = 540.35;
 
     if (ringFill) {
       const offset = circumference * (1 - this.wishProgress);
       ringFill.style.strokeDashoffset = offset.toFixed(2);
+    }
+    if (sparkHead) {
+      const showSpark = this.wishProgress > 0.015 && this.wishProgress < 0.998;
+      sparkHead.style.opacity = showSpark ? '1' : '0';
+      sparkHead.style.transform = `rotate(${(this.wishProgress * 360).toFixed(1)}deg)`;
     }
     if (orbWrap) {
       orbWrap.style.setProperty('--wish-charge', this.wishProgress.toFixed(3));
@@ -289,6 +311,7 @@ class BirthdayExperienceApp {
       orbBtn.classList.remove('is-holding');
       orbBtn.classList.add('is-completed');
     }
+    document.getElementById('wish-orb-wrap')?.classList.remove('is-charging');
 
     this.sound.stopWishHum(true);
     this.themeEngine.apply(APP_CONFIG.wishAwakensTheme || 'seher-dawn');
@@ -301,28 +324,50 @@ class BirthdayExperienceApp {
     }
     this._syncWishTextUi();
 
-    // Let the golden shockwave & opening Music-Box "Happy Birthday" notes bloom
-    // across the awakening Seher Dawn sky, then glide Ali's note smoothly open!
+    // Glide forward through golden sunrise light to present Ali's 3D Wax-Sealed Envelope!
+    this._setAct3Mode('envelope');
     clearTimeout(this._wishTransitionTimer);
     this._wishTransitionTimer = setTimeout(() => {
       this.goToAct(3);
-      setTimeout(() => {
-        this.openSheet();
-      }, 280);
-    }, 1250);
+    }, 1150);
   }
 
   _resetWishState() {
     cancelAnimationFrame(this._wishRaf);
     clearTimeout(this._wishTransitionTimer);
+    clearTimeout(this._envelopeTimer);
+    this.isEnvelopeUnsealing = false;
     this.wishState = 'idle';
     this.wishProgress = 0;
+    this._wishMilestoneStep = 0;
     const orbBtn = document.getElementById('wish-orb-btn');
     if (orbBtn) {
       orbBtn.classList.remove('is-holding', 'is-completed');
     }
+    document.getElementById('wish-orb-wrap')?.classList.remove('is-charging');
+    document.getElementById('envelope-3d-card')?.classList.remove('is-unsealing');
+    document.getElementById('envelope-stage-wrap')?.classList.remove('is-unsealing');
+    this._setAct3Mode('envelope');
     this._renderWishProgress();
     this._syncWishTextUi();
+  }
+
+  _setAct3Mode(mode) {
+    const act3 = document.getElementById('act-3');
+    const envWrap = document.getElementById('envelope-stage-wrap');
+    const keepWrap = document.getElementById('keepsake-wrap');
+    if (!act3) return;
+
+    act3.setAttribute('data-act3-mode', mode);
+    const isEnvelope = mode === 'envelope';
+    if (envWrap) {
+      envWrap.setAttribute('aria-hidden', isEnvelope ? 'false' : 'true');
+      envWrap.inert = !isEnvelope;
+    }
+    if (keepWrap) {
+      keepWrap.setAttribute('aria-hidden', isEnvelope ? 'true' : 'false');
+      keepWrap.inert = isEnvelope;
+    }
   }
 
   _syncWishTextUi() {
@@ -346,6 +391,9 @@ class BirthdayExperienceApp {
      Stage 3 — Holographic Keepsake Pass + Draggable iOS Bottom Sheet
      ======================================================================== */
   _bindAct3KeepsakeAndSheet() {
+    const envelopeScene = document.getElementById('envelope-3d-scene');
+    const envelopeCard = document.getElementById('envelope-3d-card');
+    const envelopeSealBtn = document.getElementById('envelope-seal-btn');
     const keepsakePass = document.getElementById('keepsake-pass');
     const skyThemePill = document.getElementById('sky-theme-pill');
     const openNoteBtn = document.getElementById('open-note-btn');
@@ -359,13 +407,31 @@ class BirthdayExperienceApp {
 
     // Trigger live golden "Ali" signature right when user scrolls down to the sign-off!
     const scrollBody = sheet ? sheet.querySelector('.sheet-scroll-body') : null;
+    const progressBar = document.getElementById('sheet-progress-bar');
     const signoffEl = document.getElementById('letter-signoff-block');
+
+    const updateReadProgress = () => {
+      if (!scrollBody || !progressBar) return;
+      const maxScroll = scrollBody.scrollHeight - scrollBody.clientHeight;
+      const ratio = maxScroll <= 4 ? 1 : Math.max(0.06, Math.min(1, scrollBody.scrollTop / maxScroll));
+      progressBar.style.setProperty('--read-progress', ratio.toFixed(3));
+    };
+
+    scrollBody?.addEventListener('scroll', updateReadProgress, { passive: true });
+    this._updateReadProgress = updateReadProgress;
+
     if (sheet && scrollBody && signoffEl && typeof IntersectionObserver === 'function') {
       this._sigObserver = new IntersectionObserver(
         (entries) => {
           for (const entry of entries) {
             if (entry.isIntersecting && this.isSheetOpen) {
-              sheet.classList.add('is-signing');
+              if (!sheet.classList.contains('is-signing')) {
+                sheet.classList.add('is-signing');
+                if (!this._hasPlayedSigChime) {
+                  this._hasPlayedSigChime = true;
+                  this.sound.playSignatureChime();
+                }
+              }
             }
           }
         },
@@ -374,9 +440,52 @@ class BirthdayExperienceApp {
       this._sigObserver.observe(signoffEl);
     }
 
-    if (keepsakePass) {
-      this._attachSpecularGlare(keepsakePass, '--holo-x', '--holo-y');
+    if (envelopeScene) {
+      this.spatialCards.push(
+        new SpatialCard3D(envelopeScene, {
+          maxTilt: 11.5,
+          idleTilt: 3.4,
+          glareVars: []
+        })
+      );
     }
+
+    if (keepsakePass) {
+      const passSpatial = new SpatialCard3D(keepsakePass, {
+        maxTilt: 13,
+        idleTilt: 3.1,
+        glareVars: ['--holo-x', '--holo-y']
+      });
+      this.spatialCards.push(passSpatial);
+
+      const emblemMini = keepsakePass.querySelector('.keepsake-emblem-mini');
+      keepsakePass.addEventListener('click', (e) => {
+        this.sound.playSparkle();
+        passSpatial.impulse(-6.2, 6.8);
+        this.canvasFx?.spawnMiniBurst(e.clientX, e.clientY, 18);
+        if (emblemMini) {
+          emblemMini.classList.remove('is-spinning');
+          void emblemMini.offsetWidth;
+          emblemMini.classList.add('is-spinning');
+          setTimeout(() => emblemMini.classList.remove('is-spinning'), 720);
+        }
+      });
+    }
+
+    envelopeSealBtn?.addEventListener('click', () => {
+      if (this.isEnvelopeUnsealing) return;
+      this.isEnvelopeUnsealing = true;
+      this.sound.playEnvelopeUnseal();
+      this.canvasFx?.triggerCelebration(0.5, 0.44);
+      envelopeCard?.classList.add('is-unsealing');
+      document.getElementById('envelope-stage-wrap')?.classList.add('is-unsealing');
+
+      clearTimeout(this._envelopeTimer);
+      this._envelopeTimer = setTimeout(() => {
+        this._setAct3Mode('pass');
+        this.openSheet();
+      }, 1180);
+    });
 
     skyThemePill?.addEventListener('click', () => {
       this.sound.playTap(1.12);
@@ -394,6 +503,7 @@ class BirthdayExperienceApp {
       this.closeSheet();
       this.themeEngine.apply(APP_CONFIG.defaultTheme || 'dark-liquid');
       this._syncSkyThemePillUi();
+      this.canvasFx?.triggerWarpBurst(1.15);
       this._resetWishState();
       this.goToAct(1);
     });
@@ -501,6 +611,7 @@ class BirthdayExperienceApp {
     if (!sheet || !scrim || !viewport) return;
 
     this.isSheetOpen = true;
+    this._hasPlayedSigChime = false;
     sheet.classList.remove('is-signing');
     viewport.classList.add('sheet-open');
     scrim.classList.add('is-open');
@@ -513,6 +624,7 @@ class BirthdayExperienceApp {
     }
 
     requestAnimationFrame(() => {
+      this._updateReadProgress?.();
       const signoffEl = document.getElementById('letter-signoff-block');
       if (this._sigObserver && signoffEl) {
         this._sigObserver.unobserve(signoffEl);

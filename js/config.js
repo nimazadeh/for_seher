@@ -54,6 +54,9 @@ export const APP_CONFIG = {
         orbAriaLabel: 'Press and hold for two seconds to unlock your birthday note'
       },
       act3: {
+        envelopeBadge: 'A Letter From Ali',
+        envelopeHint: 'Tap the gold seal to open your letter',
+        envelopeAria: 'Open Ali’s birthday letter',
         passFor: 'Celebrated Today',
         passName: 'Seher',
         passFooter: 'Crafted von Herzen by Ali',
@@ -65,7 +68,7 @@ export const APP_CONFIG = {
       sheet: {
         badge: 'A Birthday Note • From Ali',
         closeAria: 'Minimize birthday note',
-        salutation: 'For Seher,',
+        salutation: 'For Seher',
         p1: 'I couldn’t let today pass with just an ordinary “Happy Birthday,” because a best friend like you deserves a little more thought and effort than that.',
         p2: 'Honestly, I’m really glad we became friends. You’re such a kind, warm-hearted, and honest person, and those are qualities I genuinely appreciate about you. You have a rare way of making people feel comfortable just by being yourself.',
         p3: 'Thank you for being such a great best friend—for the laughs we share, the conversations we enjoy, and a friendship where we can simply be ourselves.',
@@ -107,6 +110,9 @@ export const APP_CONFIG = {
         orbAriaLabel: 'Zwei Sekunden gedrückt halten, um deine Geburtstagsnachricht zu öffnen'
       },
       act3: {
+        envelopeBadge: 'Ein Brief von Ali',
+        envelopeHint: 'Tippe auf das goldene Siegel, um den Brief zu öffnen',
+        envelopeAria: 'Alis Geburtstagsbrief öffnen',
         passFor: 'Heute gefeiert',
         passName: 'Seher',
         passFooter: 'Von Herzen gemacht von Ali',
@@ -118,7 +124,7 @@ export const APP_CONFIG = {
       sheet: {
         badge: 'Geburtstagsnotiz • Von Ali',
         closeAria: 'Nachricht minimieren',
-        salutation: 'Für Seher,',
+        salutation: 'Für Seher',
         p1: 'Ich konnte deinen Ehrentag unmöglich nur mit einem einfachen „Alles Gute zum Geburtstag“ vorbeigehen lassen – denn so eine großartige beste Freundin wie du hat definitiv ein bisschen mehr Mühe und Aufmerksamkeit verdient.',
         p2: 'Ganz ehrlich: Ich bin richtig froh, dass wir befreundet sind. Du bist so ein lieber, warmherziger und aufrichtiger Mensch – und genau das schätze ich so sehr an dir. Du hast diese seltene Art, dass man sich bei dir sofort wohlfühlt, einfach indem du ganz du selbst bist.',
         p3: 'Danke, dass du so eine tolle beste Freundin bist – für unser gemeinsames Lachen, die schönen Gespräche und eine Freundschaft, in der wir einfach wir selbst sein können.',
