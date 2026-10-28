@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark-liquid">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Happy Birthday, Seher ✦</title>
+  <meta name="description" content="Today belongs to someone truly wonderful—here’s a small birthday surprise made just to make you smile.">
+  <meta name="theme-color" content="#070810">
+
+  <!-- Apple iOS Native Web App Capabilities -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="For Seher">
+
+  <!-- Rich Social Link Preview (Open Graph) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Happy Birthday, Seher ✦">
+  <meta property="og:description" content="Today belongs to someone truly wonderful—here’s a small birthday surprise made just to make you smile.">
+  <meta property="og:image" content="./assets/og-preview.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Happy Birthday, Seher ✦">
+  <meta name="twitter:description" content="Today belongs to someone truly wonderful—here’s a small birthday surprise made just to make you smile.">
+  <meta name="twitter:image" content="./assets/og-preview.png">
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+
+  <!-- Modular Stylesheets (Relative Paths for GitHub Pages) -->
+  <link rel="stylesheet" href="./css/themes.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/components.css">
+  <link rel="stylesheet" href="./css/animations.css">
+
+  <!-- Parallel ES Module Preloads -->
+  <link rel="modulepreload" href="./js/app.js">
+  <link rel="modulepreload" href="./js/config.js">
+  <link rel="modulepreload" href="./js/theme-engine.js">
+  <link rel="modulepreload" href="./js/i18n.js">
+  <link rel="modulepreload" href="./js/audio.js">
+  <link rel="modulepreload" href="./js/canvas-fx.js">
+  <link rel="modulepreload" href="./js/spring.js">
+</head>
+<body>
+  <div class="studio-stage">
+    <div class="studio-ambient-glow" aria-hidden="true"></div>
+
+    <!-- Edge-to-edge on real mobile; Natural Titanium iPhone frame on desktop -->
+    <div class="device-shell">
+      <div class="device-notch" aria-hidden="true"></div>
+
+      <div class="app-viewport">
+        <!-- 60fps Liquid Aurora & Starlight Canvas -->
+        <canvas id="ambient-canvas" class="ambient-canvas" aria-hidden="true"></canvas>
+        <div class="ambient-vignette" aria-hidden="true"></div>
+
+        <!-- Persistent Safe-Area Top HUD (Zero step-bar clutter) -->
+        <header class="top-hud">
+          <!-- Bilingual Pill Switcher (EN Default | DE German) -->
+          <div
+            id="lang-pill"
+            class="lang-pill"
+            data-lang="en"
+            role="group"
+            aria-label="Language selector"
+            data-i18n-aria="hud.langGroupLabel"
+          >
+            <span class="lang-pill-thumb" aria-hidden="true"></span>
+            <button
+              type="button"
+              class="lang-btn"
+              data-lang-choice="en"
+              aria-pressed="true"
+            >EN</button>
+            <button
+              type="button"
+              class="lang-btn"
+              data-lang-choice="de"
+              aria-pressed="false"
+            >DE</button>
+          </div>
+
+          <!-- Dynamic Island-Inspired Audio Capsule -->
+          <button
+            type="button"
+            id="audio-pill"
+            class="audio-pill"
+            data-playing="false"
+            aria-pressed="false"
+            aria-label="Sound — toggle upbeat birthday music"
+          >
+            <span class="eq-bars" aria-hidden="true">
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+            </span>
+            <span id="audio-pill-label" class="audio-pill-label">Sound</span>
+          </button>
+        </header>
+
+        <!-- Main Stage (Scales back authentically when iOS Bottom Sheet opens) -->
+        <div class="app-stage-scaler">
+          <main class="acts-stage">
+            <!-- ============================================================
+                 STAGE 1: Apple Invites Glass Welcome Card (Happy Birthday, Seher)
+                 ============================================================ -->
+            <section
+              id="act-1"
+              class="act is-active"
+              data-act="1"
+              aria-hidden="false"
+            >
+              <div id="invite-card" class="invite-card">
+                <div class="invite-emblem" aria-hidden="true">
+                  <div class="invite-emblem-halo"></div>
+                  <div class="invite-emblem-glass">
+                    <svg class="invite-emblem-svg" viewBox="0 0 64 64" fill="none">
+                      <defs>
+                        <linearGradient id="emblemStarGrad" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stop-color="#FFFFFF"/>
+                          <stop offset="52%" stop-color="#FDE2B8"/>
+                          <stop offset="100%" stop-color="#F9A8C9"/>
+                        </linearGradient>
+                      </defs>
+                      <path
+                        d="M32 6C34.1 23.2 40.8 29.9 58 32C40.8 34.1 34.1 40.8 32 58C29.9 40.8 23.2 34.1 6 32C23.2 29.9 29.9 23.2 32 6Z"
+                        fill="url(#emblemStarGrad)"
+                      />
+                      <circle cx="48" cy="15" r="2.6" fill="#FFF7EB" opacity="0.9"/>
+                      <circle cx="16" cy="48" r="1.9" fill="#FBC2D9" opacity="0.8"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <h1 class="invite-title font-display" data-i18n="act1.title">
+                  Happy Birthday, Seher
+                </h1>
+
+                <p class="invite-subtitle" data-i18n="act1.subtitle">
+                  Today belongs to someone truly wonderful—here’s a small birthday surprise made just to make you smile.
+                </p>
+
+                <button
+                  type="button"
+                  id="start-journey-btn"
+                  class="btn-primary-ios"
+                >
+                  <span data-i18n="act1.cta">Open Your Surprise</span>
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M4.5 10H15.5M15.5 10L10.75 5.25M15.5 10L10.75 14.75" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+            </section>
+
+            <!-- ============================================================
+                 STAGE 2: Touch & Hold Finger to Awaken Sunrise & Unlock Note
+                 ============================================================ -->
+            <section
+              id="act-2"
+              class="act"
+              data-act="2"
+              aria-hidden="true"
+              inert
+            >
+              <div class="wish-header">
+                <div class="eyebrow-pill">
+                  <span class="eyebrow-spark" aria-hidden="true">✦</span>
+                  <span data-i18n="act2.eyebrow">Touch &amp; Hold</span>
+                </div>
+                <h2 class="wish-title font-display" data-i18n="act2.title">
+                  Make a Wish, Seher
+                </h2>
+                <p
+                  id="wish-subtitle"
+                  class="wish-subtitle"
+                  aria-live="polite"
+                >
+                  Place your finger on the light and hold for a moment to awaken the sunrise and unlock Ali’s note.
+                </p>
+              </div>
+
+              <div id="wish-orb-wrap" class="wish-orb-wrap">
+                <div class="wish-ambient-aura" aria-hidden="true"></div>
+
+                <button
+                  type="button"
+                  id="wish-orb-btn"
+                  class="wish-orb-btn"
+                  aria-label="Press and hold for two seconds to unlock your birthday note"
+                  data-i18n-aria="act2.orbAriaLabel"
+                >
+                  <svg class="wish-progress-svg" viewBox="0 0 184 184" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="wishRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#FFFFFF"/>
+                        <stop offset="50%" stop-color="#FDE2B8"/>
+                        <stop offset="100%" stop-color="#F4729E"/>
+                      </linearGradient>
+                    </defs>
+                    <circle class="wish-ring-bg" cx="92" cy="92" r="86"/>
+                    <circle id="wish-ring-fill" class="wish-ring-fill" cx="92" cy="92" r="86"/>
+                  </svg>
+
+                  <span class="wish-orb-core" aria-hidden="true">
+                    <svg class="wish-flame-svg" viewBox="0 0 64 64" fill="none">
+                      <defs>
+                        <linearGradient id="wishCoreGrad" x1="32" y1="8" x2="32" y2="56" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stop-color="#FFFFFF"/>
+                          <stop offset="45%" stop-color="#FDE2B8"/>
+                          <stop offset="100%" stop-color="#F4729E"/>
+                        </linearGradient>
+                      </defs>
+                      <path
+                        d="M32 9C36.8 19.2 45 25.5 45 36.2C45 43.8 39.2 50 32 50C24.8 50 19 43.8 19 36.2C19 25.5 27.2 19.2 32 9Z"
+                        fill="url(#wishCoreGrad)"
+                      />
+                      <path
+                        d="M32 24C34.4 29.5 38 32.8 38 38C38 41.6 35.3 44.5 32 44.5C28.7 44.5 26 41.6 26 38C26 32.8 29.6 29.5 32 24Z"
+                        fill="#FFFDF9"
+                        opacity="0.88"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+
+              <div class="wish-status-pill" aria-live="polite">
+                <span aria-hidden="true">✦</span>
+                <span id="wish-status-text">Hold finger for 2s</span>
+              </div>
+            </section>
+
+            <!-- ============================================================
+                 STAGE 3: Holographic Keepsake Pass (Behind Auto-Opened Note Sheet)
+                 ============================================================ -->
+            <section
+              id="act-3"
+              class="act"
+              data-act="3"
+              aria-hidden="true"
+              inert
+            >
+              <div class="keepsake-wrap">
+                <button
+                  type="button"
+                  id="sky-theme-pill"
+                  class="sky-theme-pill"
+                >
+                  <span id="sky-theme-label">✦ Sunrise Sky</span>
+                </button>
+
+                <article id="keepsake-pass" class="keepsake-pass">
+                  <div class="keepsake-top-row">
+                    <div class="keepsake-center">
+                      <p class="keepsake-for-caption" data-i18n="act3.passFor">
+                        Celebrated Today
+                      </p>
+                      <h2 class="keepsake-name font-display" data-i18n="act3.passName">
+                        Seher
+                      </h2>
+                    </div>
+                    <div class="keepsake-emblem-mini" aria-hidden="true">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3L14.2 9.8L21 12L14.2 14.2L12 21L9.8 14.2L3 12L9.8 9.8L12 3Z" fill="currentColor"/>
+                      </svg>
+                    </div>
+                  </div>
+
+                  <div class="keepsake-divider" aria-hidden="true"></div>
+
+                  <div class="keepsake-footer">
+                    <span data-i18n="act3.passFooter">Crafted von Herzen by Ali</span>
+                  </div>
+                </article>
+
+                <div class="keepsake-actions">
+                  <button
+                    type="button"
+                    id="open-note-btn"
+                    class="btn-primary-ios"
+                  >
+                    <span data-i18n="act3.openNoteBtn">Read Ali’s Note</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    id="replay-journey-btn"
+                    class="btn-secondary-ios"
+                  >
+                    <span data-i18n="act3.replayBtn">Replay Surprise</span>
+                  </button>
+                </div>
+              </div>
+            </section>
+          </main>
+        </div>
+
+        <!-- ================================================================
+             Native Draggable iOS Bottom Sheet — Ali's Birthday Letter
+             ================================================================ -->
+        <div id="sheet-scrim" class="ios-sheet-scrim" aria-hidden="true"></div>
+
+        <div
+          id="birthday-sheet"
+          class="ios-sheet"
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby="letter-salutation"
+          aria-hidden="true"
+          inert
+        >
+          <div id="sheet-drag-header" class="sheet-drag-header">
+            <span class="sheet-grabber" aria-hidden="true"></span>
+            <span class="sheet-header-badge">
+              <span aria-hidden="true">✦</span>
+              <span data-i18n="sheet.badge">A Birthday Note • From Ali</span>
+            </span>
+            <button
+              type="button"
+              id="sheet-close-btn"
+              class="sheet-close-btn"
+              aria-label="Minimize birthday note"
+              data-i18n-aria="sheet.closeAria"
+            >
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M4 4L12 12M12 4L4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="sheet-scroll-body">
+            <h2
+              id="letter-salutation"
+              class="letter-salutation font-display letter-stagger letter-stagger-1"
+              data-i18n="sheet.salutation"
+            >
+              For Seher,
+            </h2>
+
+            <div class="letter-paragraphs letter-stagger letter-stagger-2">
+              <p data-i18n="sheet.p1">
+                I couldn’t let today pass with just an ordinary “Happy Birthday,” because a best friend like you deserves a little more thought and effort than that.
+              </p>
+              <p data-i18n="sheet.p2">
+                Honestly, I’m really glad we became friends. You’re such a kind, warm-hearted, and honest person, and those are qualities I genuinely appreciate about you. You have a rare way of making people feel comfortable just by being yourself.
+              </p>
+              <p data-i18n="sheet.p3">
+                Thank you for being such a great best friend—for the laughs we share, the conversations we enjoy, and a friendship where we can simply be ourselves.
+              </p>
+              <p data-i18n="sheet.p4">
+                I hope today is filled with delicious food, lovely surprises, and people who remind you how much you’re appreciated. May the year ahead bring you and your family good health, peace, beautiful memories, and countless reasons to laugh together.
+              </p>
+              <p class="letter-strong" data-i18n="sheet.p5">
+                Thank you for being you, Seher. Have the wonderful birthday you truly deserve, and a bright, happy year ahead.
+              </p>
+            </div>
+
+            <div id="letter-signoff-block" class="letter-signoff-block letter-stagger letter-stagger-3">
+              <div class="letter-signature-wrap">
+                <p class="letter-signoff-caption" data-i18n="sheet.signoffCaption">
+                  Happy Birthday
+                </p>
+                <span class="sr-only" data-i18n="sheet.signature">— Ali</span>
+                <!-- Apple "hello"-Inspired Live Golden Ink Calligraphic Signature ("Ali") -->
+                <svg
+                  class="ali-signature-svg"
+                  viewBox="0 0 132 58"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <linearGradient id="aliInkGrad" x1="8" y1="8" x2="122" y2="52" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#FFFDF9"/>
+                      <stop offset="52%" stop-color="#FDE2B8"/>
+                      <stop offset="100%" stop-color="#FBBF72"/>
+                    </linearGradient>
+                  </defs>
+                  <path
+                    class="sig-stroke sig-stroke-1"
+                    pathLength="1"
+                    d="M 16 45 C 22 29, 31 12, 38 9 C 43 12, 47 30, 50 45"
+                  />
+                  <path
+                    class="sig-stroke sig-stroke-2"
+                    pathLength="1"
+                    d="M 12 33 C 26 30, 48 29, 61 24 C 71 19, 77 9, 72 9 C 67 9, 64 28, 68 42 C 70 47, 79 37, 85 27 C 84 36, 85 43, 90 44 C 95 45, 102 40, 108 35"
+                  />
+                  <path
+                    class="sig-stroke sig-stroke-3"
+                    pathLength="1"
+                    d="M 86.5 18.5 L 88.5 16.5"
+                  />
+                  <path
+                    class="sig-stroke sig-stroke-4"
+                    pathLength="1"
+                    d="M 22 52 Q 66 46 122 50"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <div class="sheet-actions letter-stagger letter-stagger-4">
+              <button
+                type="button"
+                id="view-pass-btn"
+                class="btn-secondary-ios"
+              >
+                <span data-i18n="sheet.viewPassBtn">Keepsake Pass</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="device-home-indicator" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <!-- Native ES Module Entry Point -->
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

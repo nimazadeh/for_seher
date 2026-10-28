@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#151829"/>
+      <stop offset="50%" stop-color="#0b0d18"/>
+      <stop offset="100%" stop-color="#1b1429"/>
+    </linearGradient>
+    <radialGradient id="aura1" cx="28%" cy="24%" r="65%">
+      <stop offset="0%" stop-color="#f4729e" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#f4729e" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="aura2" cx="76%" cy="78%" r="65%">
+      <stop offset="0%" stop-color="#fbbf72" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#fbbf72" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="star" x1="20%" y1="15%" x2="85%" y2="85%">
+      <stop offset="0%" stop-color="#fff9f0"/>
+      <stop offset="50%" stop-color="#fde2b8"/>
+      <stop offset="100%" stop-color="#f9a8c9"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="30" fill="url(#bg)"/>
+  <rect width="128" height="128" rx="30" fill="url(#aura1)"/>
+  <rect width="128" height="128" rx="30" fill="url(#aura2)"/>
+  <rect x="1.5" y="1.5" width="125" height="125" rx="28.5" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="2"/>
+  <path d="M64 24 C66.5 49, 79 61.5, 104 64 C79 66.5, 66.5 79, 64 104 C61.5 79, 49 66.5, 24 64 C49 61.5, 61.5 49, 64 24 Z" fill="url(#star)"/>
+  <circle cx="90" cy="36" r="3.5" fill="#fff6e8" opacity="0.85"/>
+</svg>

@@ -1,0 +1,119 @@
+/* ==========================================================================
+   Keyframes, Micro-Interactions & Reduced-Motion Accessibility
+   ========================================================================== */
+
+@keyframes eqPulse1 {
+  0%, 100% { height: 4px; }
+  45% { height: 12px; }
+}
+
+@keyframes eqPulse2 {
+  0%, 100% { height: 11px; }
+  50% { height: 4px; }
+}
+
+@keyframes eqPulse3 {
+  0%, 100% { height: 6px; }
+  40% { height: 13px; }
+  80% { height: 5px; }
+}
+
+@keyframes eqPulse4 {
+  0%, 100% { height: 9px; }
+  55% { height: 3.5px; }
+}
+
+.audio-pill[data-playing="true"] .eq-bar:nth-child(1) {
+  animation: eqPulse1 0.64s ease-in-out infinite;
+}
+
+.audio-pill[data-playing="true"] .eq-bar:nth-child(2) {
+  animation: eqPulse2 0.56s ease-in-out infinite;
+}
+
+.audio-pill[data-playing="true"] .eq-bar:nth-child(3) {
+  animation: eqPulse3 0.72s ease-in-out infinite;
+}
+
+.audio-pill[data-playing="true"] .eq-bar:nth-child(4) {
+  animation: eqPulse4 0.6s ease-in-out infinite;
+}
+
+@keyframes emblemFloat {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0) rotate(2deg);
+  }
+}
+
+.invite-emblem-glass {
+  animation: emblemFloat 5.4s ease-in-out infinite;
+}
+
+@keyframes haloBreath {
+  0%, 100% {
+    transform: scale(0.95);
+    opacity: 0.72;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.invite-emblem-halo {
+  animation: haloBreath 4.6s ease-in-out infinite;
+}
+
+@keyframes flameBreath {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.07) translateY(-2px);
+  }
+}
+
+.wish-flame-svg {
+  animation: flameBreath 3.2s ease-in-out infinite;
+}
+
+.wish-orb-btn.is-holding .wish-flame-svg {
+  animation-duration: 0.9s;
+  transform: scale(1.16);
+}
+
+@keyframes swipeNudge {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
+
+.swipe-hint-arrow {
+  display: inline-block;
+  animation: swipeNudge 2.2s ease-in-out infinite;
+}
+
+/* Reduced Motion Respect (WCAG 2.1 AAA) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.18s !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .act,
+  .letter-stagger {
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .sig-stroke {
+    stroke-dashoffset: 0 !important;
+  }
+}
